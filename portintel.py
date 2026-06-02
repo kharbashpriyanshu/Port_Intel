@@ -5,7 +5,7 @@ from modules.services import get_service_name
 
 def display_banner():
     print("-" * 40)
-    print("PORTINTEL v3.0")
+    print("PORTINTEL v4.0")
     print("-" * 40)
 
 def main():
@@ -28,9 +28,13 @@ def main():
         else:
             print(f"{'PORT':<6} {'SERVICE':<15} {'STATUS'}")
             print("-" * 35)
-            for port in open_ports:
+            for port, banner in open_ports:
                 service = get_service_name(port)
                 print(f"{port:<6} {service:<15} OPEN")
+                if banner:
+                    # Truncate very long banners to avoid messing up the terminal
+                    display_banner_str = banner if len(banner) <= 60 else banner[:57] + "..."
+                    print(f"       └─ Banner: {display_banner_str}")
                 
         print("\nScan Complete")
         

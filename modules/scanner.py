@@ -1,5 +1,6 @@
 import socket
 from concurrent.futures import ThreadPoolExecutor
+from modules.banner import grab_banner
 
 def scan_port(target: str, port: int) -> bool:
     """
@@ -23,7 +24,8 @@ def scan_range_threaded(target: str, start_port: int, end_port: int, threads: in
     
     def check_port(port):
         if scan_port(target, port):
-            return port
+            banner = grab_banner(target, port)
+            return (port, banner)
         return None
 
     with ThreadPoolExecutor(max_workers=threads) as executor:
