@@ -4,7 +4,13 @@ Intelligent Network Reconnaissance and Port Analysis Tool
 
 ## Version History
 
-### v6.0 (Current)
+### v7.0 (Current - The Ultimate Update)
+- **UDP Scanning**: Added support for connectionless UDP port scanning via the `--udp` flag.
+- **Custom Timeouts**: Configure the socket timeout with `--timeout` to scan over slow networks or speed up local scans.
+- **JSON Report Export**: Support for exporting data as API-friendly `.json` files.
+- **Vulnerability Lookups**: Automatically cross-references grabbed banners with the National Vulnerability Database (NVD) via the `--vuln` flag to find known CVEs.
+
+### v6.0
 - **Host Discovery**: Perform rapid ping sweeps across an entire subnet (e.g., `192.168.1.0/24`) to find live hosts before scanning their ports.
 
 ### v5.0
@@ -29,6 +35,9 @@ Intelligent Network Reconnaissance and Port Analysis Tool
 # Discover all live hosts on a local network
 python portintel.py --network 192.168.1.0/24 --threads 100
 
-# Scan a target using 500 concurrent threads and export results to a CSV
-python portintel.py --target 127.0.0.1 --start 1 --end 65535 --threads 500 --export reports/results.csv
+# Advanced TCP scan with vulnerability lookup and JSON export
+python portintel.py --target 127.0.0.1 --start 1 --end 1024 --threads 500 --vuln --export reports/results.json
+
+# UDP scan with a custom 2.0 second timeout
+python portintel.py --target 127.0.0.1 --start 1 --end 1024 --udp --timeout 2.0
 ```

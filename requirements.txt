@@ -1,1 +1,1 @@
-# No external dependencies for v1.0, using built-in socket and argparse libraries.
+requests
