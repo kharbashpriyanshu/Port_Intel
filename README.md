@@ -4,7 +4,10 @@ Intelligent Network Reconnaissance and Port Analysis Tool
 
 ## Version History
 
-### v5.0 (Current)
+### v6.0 (Current)
+- **Host Discovery**: Perform rapid ping sweeps across an entire subnet (e.g., `192.168.1.0/24`) to find live hosts before scanning their ports.
+
+### v5.0
 - **CSV Report Export**: Added the ability to dynamically export scan results (Port, Service, Status, Banner) into a formatted CSV file.
 
 ### v4.0
@@ -23,6 +26,9 @@ Intelligent Network Reconnaissance and Port Analysis Tool
 
 ## Usage
 ```bash
+# Discover all live hosts on a local network
+python portintel.py --network 192.168.1.0/24 --threads 100
+
 # Scan a target using 500 concurrent threads and export results to a CSV
 python portintel.py --target 127.0.0.1 --start 1 --end 65535 --threads 500 --export reports/results.csv
 ```
