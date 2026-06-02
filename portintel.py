@@ -1,10 +1,11 @@
 import argparse
 import sys
 from modules.scanner import scan_range_threaded
+from modules.services import get_service_name
 
 def display_banner():
     print("-" * 40)
-    print("PORTINTEL v2.0")
+    print("PORTINTEL v3.0")
     print("-" * 40)
 
 def main():
@@ -25,8 +26,11 @@ def main():
         if not open_ports:
             print("No open ports found.")
         else:
+            print(f"{'PORT':<6} {'SERVICE':<15} {'STATUS'}")
+            print("-" * 35)
             for port in open_ports:
-                print(f"[OPEN] {port}")
+                service = get_service_name(port)
+                print(f"{port:<6} {service:<15} OPEN")
                 
         print("\nScan Complete")
         

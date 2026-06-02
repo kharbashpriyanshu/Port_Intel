@@ -2,11 +2,12 @@
 
 Intelligent Network Reconnaissance and Port Analysis Tool
 
-## v2.0 Features
+## v3.0 Features
 - Single Host Scan
 - Port Range Scan
 - Open Port Detection
-- **Multi-threading for high-speed scanning**
+- Multi-threading for high-speed scanning
+- **Service Detection (e.g., HTTP, SSH, FTP)**
 
 ## Usage
 ```bash
