@@ -2,10 +2,11 @@ import argparse
 import sys
 from modules.scanner import scan_range_threaded
 from modules.services import get_service_name
+from modules.exporter import export_to_csv
 
 def display_banner():
     print("-" * 40)
-    print("PORTINTEL v4.0")
+    print("PORTINTEL v5.0")
     print("-" * 40)
 
 def main():
@@ -14,6 +15,7 @@ def main():
     parser.add_argument("--start", type=int, default=1, help="Start port (default: 1)")
     parser.add_argument("--end", type=int, default=1024, help="End port (default: 1024)")
     parser.add_argument("--threads", type=int, default=100, help="Number of concurrent threads (default: 100)")
+    parser.add_argument("--export", type=str, help="Export results to a CSV file (e.g., reports/scan.csv)")
     
     args = parser.parse_args()
     
@@ -37,6 +39,9 @@ def main():
                     print(f"       └─ Banner: {display_banner_str}")
                 
         print("\nScan Complete")
+        
+        if args.export and open_ports:
+            export_to_csv(args.export, open_ports)
         
     except KeyboardInterrupt:
         print("\nScan aborted by user.")

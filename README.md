@@ -4,7 +4,10 @@ Intelligent Network Reconnaissance and Port Analysis Tool
 
 ## Version History
 
-### v4.0 (Current)
+### v5.0 (Current)
+- **CSV Report Export**: Added the ability to dynamically export scan results (Port, Service, Status, Banner) into a formatted CSV file.
+
+### v4.0
 - **Banner Grabbing**: Actively connects to open ports to retrieve the server's welcome banner, identifying the exact software and version running (e.g., `OpenSSH_8.2p1`).
 
 ### v3.0
@@ -20,6 +23,6 @@ Intelligent Network Reconnaissance and Port Analysis Tool
 
 ## Usage
 ```bash
-# Scan a target using 500 concurrent threads
-python portintel.py --target 127.0.0.1 --start 1 --end 65535 --threads 500
+# Scan a target using 500 concurrent threads and export results to a CSV
+python portintel.py --target 127.0.0.1 --start 1 --end 65535 --threads 500 --export reports/results.csv
 ```
