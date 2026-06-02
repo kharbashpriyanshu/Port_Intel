@@ -1,10 +1,10 @@
 import argparse
 import sys
-from modules.scanner import scan_range
+from modules.scanner import scan_range_threaded
 
 def display_banner():
     print("-" * 40)
-    print("PORTINTEL v1.0")
+    print("PORTINTEL v2.0")
     print("-" * 40)
 
 def main():
@@ -12,6 +12,7 @@ def main():
     parser.add_argument("--target", required=True, help="Target IP address or hostname")
     parser.add_argument("--start", type=int, default=1, help="Start port (default: 1)")
     parser.add_argument("--end", type=int, default=1024, help="End port (default: 1024)")
+    parser.add_argument("--threads", type=int, default=100, help="Number of concurrent threads (default: 100)")
     
     args = parser.parse_args()
     
@@ -19,7 +20,7 @@ def main():
     print(f"Scanning {args.target}...\n")
     
     try:
-        open_ports = scan_range(args.target, args.start, args.end)
+        open_ports = scan_range_threaded(args.target, args.start, args.end, args.threads)
         
         if not open_ports:
             print("No open ports found.")

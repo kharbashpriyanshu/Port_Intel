@@ -1,4 +1,5 @@
 import socket
+from concurrent.futures import ThreadPoolExecutor
 
 def scan_port(target: str, port: int) -> bool:
     """
@@ -13,14 +14,23 @@ def scan_port(target: str, port: int) -> bool:
         result = s.connect_ex((target, port))
         return result == 0
 
-def scan_range(target: str, start_port: int, end_port: int) -> list:
+def scan_range_threaded(target: str, start_port: int, end_port: int, threads: int) -> list:
     """
-    Scans a range of ports on the target.
+    Scans a range of ports on the target using multithreading.
     Returns a list of open ports.
     """
     open_ports = []
-    for port in range(start_port, end_port + 1):
+    
+    def check_port(port):
         if scan_port(target, port):
-            open_ports.append(port)
+            return port
+        return None
+
+    with ThreadPoolExecutor(max_workers=threads) as executor:
+        results = executor.map(check_port, range(start_port, end_port + 1))
+        
+    for res in results:
+        if res is not None:
+            open_ports.append(res)
             
     return open_ports
