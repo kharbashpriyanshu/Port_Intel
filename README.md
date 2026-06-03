@@ -41,3 +41,31 @@ python portintel.py --target 127.0.0.1 --start 1 --end 1024 --threads 500 --vuln
 # UDP scan with a custom 2.0 second timeout
 python portintel.py --target 127.0.0.1 --start 1 --end 1024 --udp --timeout 2.0
 ```
+
+## Help Menu
+To view all available commands and arguments directly from the terminal, use the `-h` or `--help` flag:
+
+```bash
+python portintel.py -h
+```
+
+**Output:**
+```text
+usage: portintel.py [-h] [--target TARGET] [--network NETWORK] [--start START]
+                    [--end END] [--threads THREADS] [--timeout TIMEOUT]
+                    [--udp] [--vuln] [--export EXPORT]
+
+Intelligent Network Reconnaissance and Port Analysis Tool
+
+options:
+  -h, --help         show this help message and exit
+  --target TARGET    Target IP address or hostname for port scanning
+  --network NETWORK  Network CIDR for host discovery (e.g., 192.168.1.0/24)
+  --start START      Start port (default: 1)
+  --end END          End port (default: 1024)
+  --threads THREADS  Number of concurrent threads (default: 100)
+  --timeout TIMEOUT  Timeout in seconds for port scanning (default: 0.5)
+  --udp              Perform UDP scanning instead of TCP
+  --vuln             Look up potential CVEs based on the grabbed banner
+  --export EXPORT    Export results to a CSV or JSON file (e.g., reports/scan.json)
+```
