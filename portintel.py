@@ -58,12 +58,12 @@ def main():
                     if banner:
                         # Truncate very long banners to avoid messing up the terminal
                         display_banner_str = banner if len(banner) <= 60 else banner[:57] + "..."
-                        print(f"       └─ Banner: {display_banner_str}")
+                        print(f"       |- Banner: {display_banner_str}")
                         
                         if args.vuln:
                             cves = check_vulnerabilities(banner)
                             if cves:
-                                print(f"       └─ Vulns : {', '.join(cves)}")
+                                print(f"       |- Vulns : {', '.join(cves)}")
                     
             print("\nScan Complete")
             

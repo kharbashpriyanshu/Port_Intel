@@ -1,0 +1,26 @@
+[
+    {
+        "port": 135,
+        "service": "EPMAP",
+        "status": "OPEN",
+        "banner": ""
+    },
+    {
+        "port": 445,
+        "service": "MICROSOFT-DS",
+        "status": "OPEN",
+        "banner": ""
+    },
+    {
+        "port": 903,
+        "service": "VMWARE-AUTH",
+        "status": "OPEN",
+        "banner": ""
+    },
+    {
+        "port": 913,
+        "service": "APEX-MESH",
+        "status": "OPEN",
+        "banner": "220 VMware Authentication Daemon Version 1.0, ServerDaemonProtocol:SOAP, MKSDisplayProtocol:VNC , , ,"
+    }
+]
