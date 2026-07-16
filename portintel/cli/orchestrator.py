@@ -4,9 +4,11 @@ from portintel.models.schemas import PortResult, HostResult
 from portintel.discovery.engine import DiscoveryEngine
 from portintel.discovery.icmp import ICMPDiscoveryStrategy
 from portintel.scanner.tcp_udp import scan_range_threaded
-from portintel.intel.nvd import check_vulnerabilities
 from portintel.reporting.exporters import ConsoleExporter, CSVExporter, JSONExporter
 from portintel.fingerprint.engine import FingerprintEngine
+from portintel.intel.engine import IntelligenceEngine
+from portintel.intel.cve import CVELookup
+from portintel.intel.providers import NVDProvider
 logger = logging.getLogger(__name__)
 
 class Orchestrator:
@@ -52,11 +54,12 @@ class Orchestrator:
         fingerprint_engine = FingerprintEngine(timeout=self.timeout)
         open_ports = fingerprint_engine.enrich(target, open_ports, self.is_udp)
                 
-        # Enrich with CVEs if requested
-        if self.vuln_lookup and not self.is_udp:
-            for pr in open_ports:
-                if pr.banner:
-                    pr.cves = check_vulnerabilities(pr.banner)
+        # Enrich with Intelligence Engine
+        cve_provider = NVDProvider() if self.vuln_lookup and not self.is_udp else None
+        cve_lookup = CVELookup(cve_provider) if cve_provider else None
+        intel_engine = IntelligenceEngine(cve_lookup=cve_lookup)
+        
+        open_ports = intel_engine.enrich(open_ports)
         
         # Display to console
         ConsoleExporter().export("", open_ports)

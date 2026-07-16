@@ -25,6 +25,9 @@ class PortResult:
     status: str
     banner: Optional[str] = None
     version: Optional[str] = None
+    cpe: Optional[str] = None
+    risk: Optional[str] = None
+    mitre: List[str] = field(default_factory=list)
     cves: List[str] = field(default_factory=list)
 
 @dataclass
