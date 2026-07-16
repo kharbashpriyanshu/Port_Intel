@@ -1,8 +1,10 @@
 import abc
-import requests
-import urllib.parse
 import logging
+import urllib.parse
 from typing import List
+
+import requests
+
 from portintel.config.settings import config
 
 logger = logging.getLogger(__name__)
@@ -23,15 +25,15 @@ class NVDProvider(CVEProvider):
     def get_cves(self, keyword: str) -> List[str]:
         if not keyword:
             return []
-            
+
         url = f"{config.NVD_API_URL}?keywordSearch={urllib.parse.quote(keyword)}&resultsPerPage=3"
-        
+
         try:
             headers = {'User-Agent': config.USER_AGENT}
             logger.debug(f"Querying NVD API for keyword: {keyword}")
-            
+
             response = requests.get(url, headers=headers, timeout=config.NVD_TIMEOUT)
-            
+
             if response.status_code == 200:
                 data = response.json()
                 cves = []
@@ -44,12 +46,12 @@ class NVDProvider(CVEProvider):
                 logger.warning("NVD API request forbidden. You may have hit a rate limit.")
             else:
                 logger.warning(f"NVD API returned unexpected status code: {response.status_code}")
-                
+
         except requests.exceptions.Timeout:
             logger.warning("NVD API request timed out.")
         except requests.exceptions.RequestException as e:
             logger.error(f"Network error while querying NVD API: {e}")
         except Exception as e:
             logger.error(f"Unexpected error while querying NVD API: {e}")
-            
+
         return []

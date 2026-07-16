@@ -1,8 +1,9 @@
-import socket
 import logging
+import socket
 from typing import Optional
-from portintel.models.schemas import HostResult
+
 from portintel.discovery.engine import DiscoveryStrategy
+from portintel.models.schemas import HostResult
 
 logger = logging.getLogger(__name__)
 
@@ -26,5 +27,5 @@ class TCPDiscoveryStrategy(DiscoveryStrategy):
                 logger.debug(f"OS error during TCP discovery on {ip}:{port} : {e}")
             except Exception as e:
                 logger.debug(f"Unexpected error during TCP discovery on {ip}:{port} : {e}")
-                
+
         return None

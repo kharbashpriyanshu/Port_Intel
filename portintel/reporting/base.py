@@ -1,5 +1,7 @@
 import abc
+
 from portintel.models.schemas import ScanSummary
+
 
 class ReportStrategy(abc.ABC):
     """

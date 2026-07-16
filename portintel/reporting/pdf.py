@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+
 from portintel.models.schemas import ScanSummary
 from portintel.reporting.base import ReportStrategy
 
@@ -15,10 +16,10 @@ class PDFReport(ReportStrategy):
     def generate(self, summary: ScanSummary, filename: str = "") -> None:
         if not filename:
             return
-            
+
         path = Path(filename)
         path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         report = []
         report.append("=====================================================")
         report.append("           PORTINTEL SECURITY ASSESSMENT             ")
@@ -29,10 +30,10 @@ class PDFReport(ReportStrategy):
         report.append(f"End Time    : {summary.end_time}")
         report.append(f"Scanned     : {summary.total_ports_scanned} ports")
         report.append(f"Open Ports  : {summary.open_ports_count}\n")
-        
+
         report.append("RISK OVERVIEW & FINDINGS")
         report.append("-----------------------------------------------------")
-        
+
         for pr in summary.results:
             report.append(f"PORT {pr.port}/tcp - {pr.service}")
             report.append(f"  Risk Level  : {pr.risk or 'Info'}")
@@ -43,10 +44,10 @@ class PDFReport(ReportStrategy):
             if pr.mitre:
                 report.append(f"  MITRE       : {', '.join(pr.mitre)}")
             report.append("")
-            
+
         report.append("=====================================================")
         report.append("                  END OF REPORT                      ")
-        
+
         try:
             with open(path, mode='w', encoding='utf-8') as f:
                 f.write("\n".join(report))

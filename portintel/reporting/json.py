@@ -1,6 +1,7 @@
 import json
 import logging
 from pathlib import Path
+
 from portintel.models.schemas import ScanSummary
 from portintel.reporting.base import ReportStrategy
 
@@ -13,10 +14,10 @@ class JSONReport(ReportStrategy):
     def generate(self, summary: ScanSummary, filename: str = "") -> None:
         if not filename:
             return
-            
+
         path = Path(filename)
         path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         try:
             data = {
                 "metadata": {
@@ -28,7 +29,7 @@ class JSONReport(ReportStrategy):
                 },
                 "findings": []
             }
-            
+
             for pr in summary.results:
                 data["findings"].append({
                     "port": pr.port,
@@ -41,10 +42,10 @@ class JSONReport(ReportStrategy):
                     "cves": pr.cves,
                     "banner": pr.banner
                 })
-                
+
             with open(path, mode='w', encoding='utf-8') as json_file:
                 json.dump(data, json_file, indent=4)
-                
+
             logger.info(f"[+] JSON report generated: {path}")
         except Exception as e:
             logger.error(f"[-] Failed to generate JSON report: {e}")

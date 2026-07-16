@@ -1,5 +1,4 @@
 import socket
-from typing import Optional
 
 COMMON_SERVICES = {
     20: "FTP-DATA",
@@ -40,5 +39,5 @@ class ServiceDetector:
         try:
             service = socket.getservbyport(port, "tcp")
             return service.upper()
-        except OSError:
+        except (OSError, OverflowError):
             return COMMON_SERVICES.get(port, "UNKNOWN")

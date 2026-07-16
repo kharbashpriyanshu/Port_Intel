@@ -1,8 +1,9 @@
 import abc
 import ipaddress
 import logging
-from typing import List, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import List, Optional
+
 from portintel.models.schemas import HostResult
 
 logger = logging.getLogger(__name__)
@@ -40,7 +41,7 @@ class DiscoveryEngine:
         try:
             net = ipaddress.ip_network(network, strict=False)
             ips = [str(ip) for ip in net.hosts()]
-            
+
             with ThreadPoolExecutor(max_workers=self.threads) as executor:
                 try:
                     futures = {executor.submit(self.strategy.discover, ip, self.timeout): ip for ip in ips}
@@ -55,12 +56,12 @@ class DiscoveryEngine:
                     logger.info("Discovery interrupted by user. Shutting down gracefully...")
                     executor.shutdown(wait=False, cancel_futures=True)
                     raise
-                    
+
             # Sort IPs for predictable output
             alive_hosts.sort(key=lambda x: ipaddress.ip_address(x.ip))
         except ValueError as e:
             logger.error(f"Invalid network format: {e}. Use CIDR notation (e.g., 192.168.1.0/24).")
         except Exception as e:
             logger.error(f"Unexpected error during network discovery: {e}")
-            
+
         return alive_hosts

@@ -1,5 +1,6 @@
 import logging
 from typing import Dict
+
 from portintel.models.schemas import ScanSummary
 from portintel.reporting.base import ReportStrategy
 from portintel.reporting.console import ConsoleReport
@@ -17,7 +18,7 @@ class ReportingEngine:
         self.strategies: Dict[str, ReportStrategy] = {
             "console": ConsoleReport()
         }
-        
+
     def add_strategy(self, name: str, strategy: ReportStrategy):
         """
         Injects a new reporting strategy (e.g., HTML, PDF).
@@ -30,9 +31,9 @@ class ReportingEngine:
         """
         if filenames is None:
             filenames = {}
-            
+
         logger.debug(f"Starting ReportingEngine with {len(self.strategies)} strategies.")
-        
+
         for name, strategy in self.strategies.items():
             # Get the requested filename for this strategy, or empty string for console
             filename = filenames.get(name, "")

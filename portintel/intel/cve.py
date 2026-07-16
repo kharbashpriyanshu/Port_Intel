@@ -1,5 +1,6 @@
 import logging
 from typing import List
+
 from portintel.intel.providers import CVEProvider
 
 logger = logging.getLogger(__name__)
@@ -11,26 +12,26 @@ class CVELookup:
     """
     def __init__(self, provider: CVEProvider):
         self.provider = provider
-        
+
     def find_cves(self, cpe: str = None, banner: str = None) -> List[str]:
         """
         Derives search keywords from CPE or banner and queries the provider.
         """
         keyword = ""
-        
+
         # Prefer CPE for searching if available
         if cpe:
             # Extract Vendor and Product from CPE string for the search
             parts = cpe.split(":")
             if len(parts) >= 5:
                 keyword = f"{parts[3]} {parts[4]}"
-                
+
         # Fallback to banner heuristic
         if not keyword and banner and len(banner) > 3:
             clean_banner = banner.replace("-", " ").replace("_", " ")
             keyword = " ".join(clean_banner.split()[:2])
-            
+
         if not keyword:
             return []
-            
+
         return self.provider.get_cves(keyword)

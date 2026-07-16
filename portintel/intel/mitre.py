@@ -1,11 +1,13 @@
 from typing import List
+
 from portintel.models.schemas import PortResult
+
 
 class MITREMapper:
     """
     Maps discovered services to potential MITRE ATT&CK tactics or techniques.
     """
-    
+
     # Modular mapping of services to ATT&CK matrix
     MAPPING = {
         "SMB": ["T1021 - Remote Services (Lateral Movement)"],
@@ -16,7 +18,7 @@ class MITREMapper:
         "MSSQL": ["T1190 - Exploit Public-Facing Application"],
         "MYSQL": ["T1190 - Exploit Public-Facing Application"]
     }
-    
+
     @staticmethod
     def map_service(pr: PortResult) -> List[str]:
         if not pr.service:

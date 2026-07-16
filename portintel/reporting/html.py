@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+
 from portintel.models.schemas import ScanSummary
 from portintel.reporting.base import ReportStrategy
 
@@ -12,10 +13,10 @@ class HTMLReport(ReportStrategy):
     def generate(self, summary: ScanSummary, filename: str = "") -> None:
         if not filename:
             return
-            
+
         path = Path(filename)
         path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         html_content = f"""<!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +39,6 @@ class HTMLReport(ReportStrategy):
 </head>
 <body>
     <h1>PortIntel Security Assessment</h1>
-    
     <h2>Executive Summary</h2>
     <div class="summary-card">
         <p><strong>Target:</strong> {summary.target}</p>
@@ -47,7 +47,6 @@ class HTMLReport(ReportStrategy):
         <p><strong>Start Time:</strong> {summary.start_time}</p>
         <p><strong>End Time:</strong> {summary.end_time}</p>
     </div>
-    
     <h2>Open Ports & Findings</h2>
     <table>
         <tr>

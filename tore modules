@@ -1,0 +1,43 @@
+warning: in the working copy of 'modules/banner.py', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/modules/banner.py b/modules/banner.py[m
+[1mindex 2da9e11..3124c32 100644[m
+[1m--- a/modules/banner.py[m
+[1m+++ b/modules/banner.py[m
+[36m@@ -1,5 +1,6 @@[m
+ import socket[m
+ [m
+[32m+[m
+ def grab_banner(target: str, port: int, timeout: float = 1.0) -> str:[m
+     """[m
+     Attempts to connect to the target port and grab its banner/welcome message.[m
+[36m@@ -9,24 +10,24 @@[m [mdef grab_banner(target: str, port: int, timeout: float = 1.0) -> str:[m
+         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:[m
+             s.settimeout(timeout)[m
+             s.connect((target, port))[m
+[31m-            [m
+[32m+[m
+             # Send a basic probe to encourage a response[m
+             if port in [80, 443, 8080]:[m
+                 s.sendall(b"HEAD / HTTP/1.0\r\n\r\n")[m
+             else:[m
+                 s.sendall(b"\r\n")[m
+[31m-            [m
+[32m+[m
+             # Receive up to 1024 bytes of data[m
+             raw_banner = s.recv(1024)[m
+[31m-            [m
+[32m+[m
+             # Decode and clean the string[m
+             banner = raw_banner.decode('utf-8', errors='ignore').strip()[m
+[31m-            [m
+[32m+[m
+             # Collapse multiple spaces or newlines into a single line for display[m
+             banner = " ".join(banner.split())[m
+[31m-            [m
+[32m+[m
+             return banner[m
+[31m-            [m
+[32m+[m
+     except Exception:[m
+         # If the connection drops, times out, or the server sends no data[m
+         return ""[m

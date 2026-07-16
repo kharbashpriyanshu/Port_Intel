@@ -1,14 +1,15 @@
-import socket
 import logging
+import socket
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import List, Callable, Optional
+from typing import Callable, List, Optional
+
 from portintel.models.schemas import PortResult
 
 logger = logging.getLogger(__name__)
 
 class ThreadedScanner:
     """Reusable thread pool executor for concurrent scanning operations."""
-    
+
     def __init__(self, threads: int):
         self.threads = threads
 
@@ -33,7 +34,7 @@ class ThreadedScanner:
                 logger.info("Scan interrupted by user. Initiating graceful shutdown...")
                 executor.shutdown(wait=False, cancel_futures=True)
                 raise
-        
+
         # Maintain order by sorting results by port number
         results.sort(key=lambda x: x.port)
         return results
@@ -93,10 +94,12 @@ def scan_range_threaded(target: str, start_port: int, end_port: int, threads: in
     logger.debug(f"Starting engine for {target} ports {start_port}-{end_port} (Threads: {threads})")
     scanner = ThreadedScanner(threads=threads)
     ports = list(range(start_port, end_port + 1))
-    
+
     if is_udp:
-        worker = lambda p: scan_udp_port(target, p, timeout)
+        def worker(p):
+            return scan_udp_port(target, p, timeout)
     else:
-        worker = lambda p: scan_tcp_port(target, p, timeout)
+        def worker(p):
+            return scan_tcp_port(target, p, timeout)
 
     return scanner.execute(worker, ports)

@@ -1,5 +1,7 @@
 from typing import Optional
+
 from portintel.models.schemas import PortResult
+
 
 class CPEResolver:
     """
@@ -13,10 +15,10 @@ class CPEResolver:
         """
         if not pr.service or pr.service == "UNKNOWN":
             return None
-            
+
         # Simplistic mapping (in reality, a robust DB or fuzzy matcher would be used)
         vendor = pr.service.lower()
         product = pr.service.lower()
         version = pr.version if pr.version else "*"
-        
+
         return f"cpe:2.3:a:{vendor}:{product}:{version}:*:*:*:*:*:*:*"
