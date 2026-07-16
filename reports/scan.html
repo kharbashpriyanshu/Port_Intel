@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PortIntel Security Assessment</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; color: #333; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; }
+        .summary-card { background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 5px solid #3498db; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        th, td { border: 1px solid #e9ecef; padding: 12px; text-align: left; }
+        th { background-color: #34495e; color: white; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        .risk-Critical { color: white; background-color: #e74c3c; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+        .risk-High { color: white; background-color: #e67e22; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+        .risk-Medium { color: white; background-color: #f1c40f; padding: 4px 8px; border-radius: 4px; color: #333; font-weight: bold; }
+        .risk-Low { color: white; background-color: #3498db; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+        .risk-Info { color: white; background-color: #2ecc71; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>PortIntel Security Assessment</h1>
+    
+    <h2>Executive Summary</h2>
+    <div class="summary-card">
+        <p><strong>Target:</strong> 127.0.0.1</p>
+        <p><strong>Total Ports Scanned:</strong> 779</p>
+        <p><strong>Open Ports:</strong> 4</p>
+        <p><strong>Start Time:</strong> 2026-07-16 21:25:23.019242</p>
+        <p><strong>End Time:</strong> 2026-07-16 21:25:28.263110</p>
+    </div>
+    
+    <h2>Open Ports & Findings</h2>
+    <table>
+        <tr>
+            <th>Port</th>
+            <th>Service</th>
+            <th>Version</th>
+            <th>Risk</th>
+            <th>CVEs</th>
+            <th>MITRE ATT&CK</th>
+        </tr>
+
+        <tr>
+            <td><strong>135</strong> (OPEN)</td>
+            <td>EPMAP</td>
+            <td>N/A</td>
+            <td><span class="risk-Info">Info</span></td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+
+        <tr>
+            <td><strong>445</strong> (OPEN)</td>
+            <td>MICROSOFT-DS</td>
+            <td>N/A</td>
+            <td><span class="risk-Info">Info</span></td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+
+        <tr>
+            <td><strong>903</strong> (OPEN)</td>
+            <td>VMWARE-AUTH</td>
+            <td>N/A</td>
+            <td><span class="risk-Info">Info</span></td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+
+        <tr>
+            <td><strong>913</strong> (OPEN)</td>
+            <td>APEX-MESH</td>
+            <td>1.0</td>
+            <td><span class="risk-Info">Info</span></td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+
+    </table>
+</body>
+</html>

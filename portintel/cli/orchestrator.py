@@ -1,10 +1,16 @@
 import logging
 from typing import List, Optional
-from portintel.models.schemas import PortResult, HostResult
+from datetime import datetime
+from portintel.models.schemas import PortResult, HostResult, ScanSummary
 from portintel.discovery.engine import DiscoveryEngine
 from portintel.discovery.icmp import ICMPDiscoveryStrategy
 from portintel.scanner.tcp_udp import scan_range_threaded
-from portintel.reporting.exporters import ConsoleExporter, CSVExporter, JSONExporter
+from portintel.reporting.engine import ReportingEngine
+from portintel.reporting.json import JSONReport
+from portintel.reporting.csv import CSVReport
+from portintel.reporting.html import HTMLReport
+from portintel.reporting.pdf import PDFReport
+from portintel.reporting.markdown import MarkdownReport
 from portintel.fingerprint.engine import FingerprintEngine
 from portintel.intel.engine import IntelligenceEngine
 from portintel.intel.cve import CVELookup
@@ -41,6 +47,8 @@ class Orchestrator:
     def run_scan(self, target: str, start_port: int, end_port: int):
         logger.info(f"Scanning {target}...\n")
         
+        start_time = datetime.now()
+        
         open_ports: List[PortResult] = scan_range_threaded(
             target=target,
             start_port=start_port,
@@ -61,13 +69,38 @@ class Orchestrator:
         
         open_ports = intel_engine.enrich(open_ports)
         
-        # Display to console
-        ConsoleExporter().export("", open_ports)
-        logger.info("\nScan Complete")
+        end_time = datetime.now()
         
-        # Export to file if requested
-        if self.export_path and open_ports:
+        # Build ScanSummary
+        summary = ScanSummary(
+            target=target,
+            start_time=start_time,
+            end_time=end_time,
+            total_ports_scanned=(end_port - start_port + 1),
+            open_ports_count=len(open_ports),
+            results=open_ports
+        )
+        
+        # Initialize Reporting Engine
+        reporting_engine = ReportingEngine()
+        
+        filenames = {}
+        if self.export_path:
             if self.export_path.endswith('.json'):
-                JSONExporter().export(self.export_path, open_ports)
-            else:
-                CSVExporter().export(self.export_path, open_ports)
+                reporting_engine.add_strategy("json", JSONReport())
+                filenames["json"] = self.export_path
+            elif self.export_path.endswith('.csv'):
+                reporting_engine.add_strategy("csv", CSVReport())
+                filenames["csv"] = self.export_path
+            elif self.export_path.endswith('.html'):
+                reporting_engine.add_strategy("html", HTMLReport())
+                filenames["html"] = self.export_path
+            elif self.export_path.endswith('.pdf') or self.export_path.endswith('.txt'):
+                reporting_engine.add_strategy("pdf", PDFReport())
+                filenames["pdf"] = self.export_path
+            elif self.export_path.endswith('.md'):
+                reporting_engine.add_strategy("markdown", MarkdownReport())
+                filenames["markdown"] = self.export_path
+                
+        # Generate Reports
+        reporting_engine.report(summary, filenames)
