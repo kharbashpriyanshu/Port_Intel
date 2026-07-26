@@ -21,14 +21,17 @@ class CSVReport(ReportStrategy):
         try:
             with open(path, mode='w', newline='', encoding='utf-8') as csv_file:
                 writer = csv.writer(csv_file)
-                writer.writerow(['Port', 'Service', 'Version', 'CPE', 'Risk', 'Status', 'Banner', 'CVEs', 'MITRE'])
+                writer.writerow(['Port', 'Service', 'Version', 'CPE', 'Risk', 'Status', 'Banner', 'CVEs', 'MITRE', 'CVSS_Score', 'CVSS_Version', 'Exposure_Concern'])
 
                 for pr in summary.results:
                     cves_str = ", ".join(pr.cves) if pr.cves else ""
                     mitre_str = ", ".join(pr.mitre) if pr.mitre else ""
                     writer.writerow([
                         pr.port, pr.service, pr.version or "", pr.cpe or "",
-                        pr.risk or "", pr.status, pr.banner or "", cves_str, mitre_str
+                        pr.risk or "", pr.status, pr.banner or "", cves_str, mitre_str,
+                        pr.cvss_score if pr.cvss_score is not None else "",
+                        pr.cvss_version or "",
+                        pr.exposure_concern or ""
                     ])
 
             logger.info(f"[+] CSV report generated: {path}")

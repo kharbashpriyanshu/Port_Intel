@@ -13,6 +13,10 @@ class ScanTarget:
 @dataclass
 class VulnerabilityInfo:
     cve_id: str
+    description: Optional[str] = None
+    cvss_score: Optional[float] = None
+    cvss_version: Optional[str] = None
+    severity: Optional[str] = None
 
 @dataclass
 class BannerInfo:
@@ -30,6 +34,10 @@ class PortResult:
     risk: Optional[str] = None
     mitre: List[str] = field(default_factory=list)
     cves: List[str] = field(default_factory=list)
+    vulnerabilities: List[VulnerabilityInfo] = field(default_factory=list)
+    cvss_score: Optional[float] = None
+    cvss_version: Optional[str] = None
+    exposure_concern: Optional[str] = None
 
 @dataclass
 class HostResult:

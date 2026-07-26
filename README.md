@@ -30,11 +30,11 @@ Built strictly on **SOLID design principles** and the **Strategy Pattern**, Port
 - 📡 **High-Concurrency Scanning**: Thread-pool optimized TCP & UDP network probing.
 - 🔍 **Aggressive Fingerprinting**: Advanced socket banner grabbing and semantic version extraction.
 - 🧠 **Threat Intelligence Pipeline**: 
-  - Automated CPE 2.3 formulation.
-  - Vulnerability lookups via modular Providers (NVD, etc).
-  - Risk severity scoring.
+  - Automated CPE 2.3 formulation using an extensible service-to-CPE dictionary mapping strategy.
+  - Vulnerability lookups via modular Providers (`NVDProvider` with optional `NVD_API_KEY` authentication, 403/429 rate-limit exponential backoff, and safe offline fallback).
+  - Standardized risk severity scoring using conventional CVSS v3.1 base-score severity bands (with explicit separation of Vulnerability Severity from Service Exposure Concern).
   - MITRE ATT&CK mapping.
-- 📊 **Reporting Strategy Engine**: Supports zero-friction export to **Console (ANSI), JSON, CSV, Markdown, HTML (Premium Assesment UI), and printable text (PDF)**.
+- 📊 **Reporting Strategy Engine**: Supports zero-friction export to **Console (ANSI), JSON, CSV, Markdown, HTML (Premium Assessment UI), and printable text (PDF)**.
 - 🛡️ **Enterprise Architecture**: Built for recruiters, engineers, and contributors—featuring dependency injection and strict interfaces.
 
 ---

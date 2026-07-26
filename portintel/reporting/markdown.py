@@ -27,14 +27,17 @@ class MarkdownReport(ReportStrategy):
         md.append(f"- **End Time**: {summary.end_time}\n")
 
         md.append("## Detailed Findings\n")
-        md.append("| Port | Service | Version | Risk | CVEs | MITRE ATT&CK |")
-        md.append("|------|---------|---------|------|------|--------------|")
+        md.append("| Port | Service | Version | CPE | Risk | CVSS | CVEs | MITRE ATT&CK | Exposure Concern |")
+        md.append("|------|---------|---------|-----|------|------|------|--------------|------------------|")
 
         for pr in summary.results:
             risk = pr.risk or "Info"
             cves = ", ".join(pr.cves) if pr.cves else "None"
             mitre = "<br>".join(pr.mitre) if pr.mitre else "None"
-            md.append(f"| {pr.port} | {pr.service} | {pr.version or 'N/A'} | {risk} | {cves} | {mitre} |")
+            cpe = pr.cpe or "N/A"
+            cvss_str = f"{pr.cvss_score} (v{pr.cvss_version or '3.1'})" if pr.cvss_score is not None else "N/A"
+            exposure_str = pr.exposure_concern or "None"
+            md.append(f"| {pr.port} | {pr.service} | {pr.version or 'N/A'} | {cpe} | {risk} | {cvss_str} | {cves} | {mitre} | {exposure_str} |")
 
         try:
             with open(path, mode='w', encoding='utf-8') as f:

@@ -38,8 +38,21 @@ class JSONReport(ReportStrategy):
                     "version": pr.version,
                     "cpe": pr.cpe,
                     "risk": pr.risk,
+                    "cvss_score": pr.cvss_score,
+                    "cvss_version": pr.cvss_version,
+                    "exposure_concern": pr.exposure_concern,
                     "mitre": pr.mitre,
                     "cves": pr.cves,
+                    "vulnerabilities": [
+                        {
+                            "cve_id": v.cve_id,
+                            "description": v.description,
+                            "cvss_score": v.cvss_score,
+                            "cvss_version": v.cvss_version,
+                            "severity": v.severity,
+                        }
+                        for v in pr.vulnerabilities
+                    ],
                     "banner": pr.banner
                 })
 

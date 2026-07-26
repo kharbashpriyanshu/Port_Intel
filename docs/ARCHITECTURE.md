@@ -54,8 +54,12 @@ classDiagram
     ReportingEngine o-- ReportStrategy
 ```
 
-### Intelligence Provider Strategy
-The Intelligence Engine injects a `CVEProvider` into the `CVELookup` logic, meaning you can swap the NVD database for Shodan simply by writing a new provider.
+### Intelligence Provider Strategy & Threat Enrichment
+The Intelligence Engine orchestrates threat enrichment across four core subsystems:
+1. **`CPEResolver`**: Uses an extensible service-to-CPE dictionary mapping strategy (`CPEMappingRule`) with word-boundary and regex banner matching and version normalization. Never fabricates CPEs when fingerprint evidence is insufficient.
+2. **`CVEProvider` / `NVDProvider`**: The Intelligence Engine injects a `CVEProvider` into the `CVELookup` logic. `NVDProvider` queries the NIST NVD REST API 2.0, supporting optional `NVD_API_KEY` authentication from environment variables, bounded exponential backoff for HTTP 403/429 rate limits, and safe fallback to offline/empty results without throwing exceptions.
+3. **`RiskScorer`**: Implements standards-based CVSS v3.1 base-score severity bands (`Critical`: 9.0+, `High`: 7.0+, `Medium`: 4.0+, `Low`: 0.1+, `None`: 0.0) while clearly separating **Vulnerability Severity** (`risk`) from **Service Exposure Concern** (`exposure_concern`, e.g. cleartext Telnet/FTP exposure).
+4. **`MITREMapper`**: Automatically maps detected services and ports to MITRE ATT&CK enterprise tactics and techniques.
 
 ```mermaid
 classDiagram

@@ -1,29 +1,47 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
+*.pyo
 
-# Testing
+# Virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Environments and Secrets
+.env
+*.env
+*.key
+*.pem
+secrets.*
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Test caches
 .pytest_cache/
 .coverage
-coverage.xml
 htmlcov/
+coverage.xml
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# Ruff cache
+.ruff_cache/
 
-# Project output
-reports/
-*.log
-
-# IDEs
-.idea/
+# VS Code / IDE
 .vscode/
+.idea/
 *.swp
 *.swo
+
+# Generated scan reports, scratch files, local artifacts
+reports/
+scratch/
+result.*
+*.scratch
+*.log
+*.tmp
+*.bak
+

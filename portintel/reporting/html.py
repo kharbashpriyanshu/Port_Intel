@@ -53,23 +53,32 @@ class HTMLReport(ReportStrategy):
             <th>Port</th>
             <th>Service</th>
             <th>Version</th>
+            <th>CPE</th>
             <th>Risk</th>
+            <th>CVSS</th>
             <th>CVEs</th>
             <th>MITRE ATT&CK</th>
+            <th>Exposure Concern</th>
         </tr>
 """
         for pr in summary.results:
             risk = pr.risk or "Info"
             cves = ", ".join(pr.cves) if pr.cves else "None"
             mitre = "<br>".join(pr.mitre) if pr.mitre else "None"
+            cpe = pr.cpe or "N/A"
+            cvss_str = f"{pr.cvss_score} (v{pr.cvss_version or '3.1'})" if pr.cvss_score is not None else "N/A"
+            exposure_str = pr.exposure_concern or "None"
             html_content += f"""
         <tr>
             <td><strong>{pr.port}</strong> ({pr.status})</td>
             <td>{pr.service}</td>
             <td>{pr.version or 'N/A'}</td>
+            <td>{cpe}</td>
             <td><span class="risk-{risk}">{risk}</span></td>
+            <td>{cvss_str}</td>
             <td>{cves}</td>
             <td>{mitre}</td>
+            <td>{exposure_str}</td>
         </tr>
 """
         html_content += """

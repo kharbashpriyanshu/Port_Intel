@@ -39,6 +39,10 @@ class PDFReport(ReportStrategy):
             report.append(f"  Risk Level  : {pr.risk or 'Info'}")
             report.append(f"  Version     : {pr.version or 'N/A'}")
             report.append(f"  CPE         : {pr.cpe or 'N/A'}")
+            if pr.cvss_score is not None:
+                report.append(f"  CVSS        : {pr.cvss_score} (v{pr.cvss_version or '3.1'})")
+            if pr.exposure_concern:
+                report.append(f"  Exposure    : {pr.exposure_concern}")
             if pr.cves:
                 report.append(f"  CVEs        : {', '.join(pr.cves)}")
             if pr.mitre:

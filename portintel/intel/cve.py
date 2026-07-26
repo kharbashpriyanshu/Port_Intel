@@ -2,20 +2,26 @@ import logging
 from typing import List
 
 from portintel.intel.providers import CVEProvider
+from portintel.models.schemas import VulnerabilityInfo
 
 logger = logging.getLogger(__name__)
+
 
 class CVELookup:
     """
     Coordinates CVE lookups using an injected CVEProvider.
     Decoupled from any specific external API.
     """
+
     def __init__(self, provider: CVEProvider):
         self.provider = provider
 
-    def find_cves(self, cpe: str = None, banner: str = None) -> List[str]:
+    def find_vulnerabilities(
+        self, cpe: str = None, banner: str = None
+    ) -> List[VulnerabilityInfo]:
         """
-        Derives search keywords from CPE or banner and queries the provider.
+        Derives search keywords from CPE or banner and queries the provider
+        for structured vulnerability objects.
         """
         keyword = ""
 
@@ -34,4 +40,10 @@ class CVELookup:
         if not keyword:
             return []
 
-        return self.provider.get_cves(keyword)
+        return self.provider.get_vulnerabilities(keyword)
+
+    def find_cves(self, cpe: str = None, banner: str = None) -> List[str]:
+        """
+        Derives search keywords from CPE or banner and queries the provider for CVE ID strings.
+        """
+        return [v.cve_id for v in self.find_vulnerabilities(cpe=cpe, banner=banner)]

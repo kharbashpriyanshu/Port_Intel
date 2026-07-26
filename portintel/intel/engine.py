@@ -31,9 +31,10 @@ class IntelligenceEngine:
             # 2. MITRE ATT&CK Mapping
             pr.mitre = MITREMapper.map_service(pr)
 
-            # 3. CVE Lookup (if a provider is configured and not UDP)
+            # 3. CVE/Vulnerability Lookup (if a provider is configured and not UDP)
             if self.cve_lookup:
-                pr.cves = self.cve_lookup.find_cves(cpe=pr.cpe, banner=pr.banner)
+                pr.vulnerabilities = self.cve_lookup.find_vulnerabilities(cpe=pr.cpe, banner=pr.banner)
+                pr.cves = [v.cve_id for v in pr.vulnerabilities]
 
             # 4. Risk Scoring
             pr.risk = RiskScorer.score(pr)

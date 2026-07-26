@@ -1,4 +1,6 @@
+import os
 from pathlib import Path
+from typing import Optional
 
 
 class Settings:
@@ -13,7 +15,8 @@ class Settings:
     # NVD API Integration
     NVD_API_URL: str = "https://services.nvd.nist.gov/rest/json/cves/2.0"
     NVD_TIMEOUT: int = 5
-    USER_AGENT: str = "PortIntel-Scanner/7.0"
+    NVD_API_KEY: Optional[str] = os.environ.get("NVD_API_KEY", None)
+    USER_AGENT: str = "PortIntel-Scanner/2.0.0"
 
     # Output/Reporting
     DEFAULT_OUTPUT_DIR: Path = Path("reports")
