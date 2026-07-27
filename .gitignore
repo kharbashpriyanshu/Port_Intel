@@ -44,4 +44,6 @@ result.*
 *.log
 *.tmp
 *.bak
-
+*.docx
+~$*
+PortIntel_VAPT_Submission.*

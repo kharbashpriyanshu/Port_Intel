@@ -135,6 +135,18 @@ Current Status: **61% Statement Coverage**, enforcing rigorous pipeline orchestr
 
 ---
 
+## 🛡️ VAPT Case Study
+
+PortIntel v2.0 has been evaluated in an authorized Kali Linux + Metasploitable 2 laboratory as the primary reconnaissance and vulnerability-intelligence component of an end-to-end VAPT workflow.
+
+The assessment covered host discovery, TCP service enumeration, service fingerprinting, vulnerability intelligence, independent validation, evidence-based finding classification, and remediation planning.
+
+**Lab result:** 1,024 TCP ports assessed → 12 exposed services identified → CVE-2011-2523 independently validated in the isolated environment.
+
+➡️ [View the complete VAPT Laboratory Case Study](docs/vapt-lab/README.md)
+
+---
+
 ## 🗺️ Roadmap
 
 - **[v2.1]**: Integration of alternative Threat Intel Providers (Vulners, Shodan API).
